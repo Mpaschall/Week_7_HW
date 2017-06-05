@@ -1,0 +1,46 @@
+using System;
+using System.Web.UI;
+using System.Web.UI.WebControls;
+using System.Collections;
+public class SessionOrder : Page 
+{
+protected Button submit;
+protected Button reset;
+protected Button delete;
+protected Label output;
+protected CheckBoxList order;
+protected ArrayList state;
+private void Page_Init() 
+{
+submit.Click += new EventHandler(Submit_Click);
+reset.Click += new EventHandler(Reset_Click);
+delete.Click += new EventHandler(Delete_Click
+}
+public void Submit_Click(Object Sender, EventArgs e) 
+{
+state = (ArrayList)Session["items"];
+if (state == null)state = new ArrayList();
+for (int i = 0; i < order.Items.Count; i++)
+if (order.Items[i].Selected)state.Add(order.Items[i].Value); 
+Session.Add("items", state);
+output.Text = Session.SessionID + "<br>";
+foreach(String s in state)
+output.Text += s + "<br>";
+}
+public void Reset_Click(Object Sender, EventArgs e) 
+{
+order.SelectedIndex = -1;
+output.Text = "";
+}
+public void Delete_Click(Object Sender, EventArgs e)
+{
+state = (ArrayList)Session["items"];
+if (state == null)state = new ArrayList();
+for (int i = 0; i < order.Items.Count; i++)
+if (order.Items[i].Selected)state.Remove(order.Items[i].Value); 
+Session.Remove("items", state);
+output.Text = Session.SessionID + "<br>";
+foreach(String s in state)
+output.Text += s + "<br>";
+}
+} 
